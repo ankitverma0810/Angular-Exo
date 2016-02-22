@@ -1,37 +1,50 @@
 var myApp = angular.module('myApp', 
-    ['ui.router', 'ngStorage'])
+    ['ui.router', 'ngStorage', 'userRouter', 'pageRouter', 'dashboardRouter'])
     .constant('SITENAME', 'Exo');
 
-myApp.run(['$http', '$rootScope', '$location', '$timeout', 'Authentication', '$sessionStorage', function($http, $rootScope, $location, $timeout,  Authentication, $sessionStorage) {
-
-    //setting common headers for our app
-    $http.defaults.headers.common['X-CSRF-Token'] = $sessionStorage.authToken;
-
+myApp.run(['$rootScope', 'Authentication', function($rootScope, Authentication) {
+    //Authentication service is being required here (so that authToken can be set on load)
     //state change events
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         $rootScope.$currentState = toState.name;
+    });
 
-        if( Authentication.isLoggedIn() ) {
-            if( $rootScope.$currentState === 'login' ) {
-                $timeout(function() {
-                    $location.path('/');
-                }, 50);
-            }
-        }
+    $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.setFlash = '';
     });
 }]);
 
-myApp.config(['$urlRouterProvider', '$stateProvider', function($urlRouterProvider, $stateProvider) {
+myApp.config(['$httpProvider', '$urlRouterProvider', '$stateProvider', function($httpProvider, $urlRouterProvider, $stateProvider) {
+
+    //Http Intercpetor to check auth failures for xhr requests
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
+
+    //app routes
     $urlRouterProvider.otherwise('/');
     $stateProvider.
-        state('home', {
-            url: '/',
-            templateUrl: 'views/pages/home.html',
-            controller: 'PagesController'
+        state('defaultLayout', {
+            abstract: true,
+            views: {
+                'layout': {
+                    templateUrl: 'views/layouts/default.html'
+                },
+                'header@defaultLayout': {
+                    templateUrl: 'views/elements/header.html',
+                    controller: 'HeaderController'
+                },
+                'footer@defaultLayout': {
+                    templateUrl: 'views/elements/footer.html',
+                    controller: 'FooterController'
+                }
+            },
+            resolve: {}
         }).
-        state('login', {
-            url: '/login',
-            templateUrl: 'views/users/login.html',
-            controller: 'UsersController'
+        state('loginLayout', {
+            abstract: true,
+            views: {
+                'layout': {
+                    templateUrl: 'views/layouts/login.html'
+                }
+            }
         });
 }]);

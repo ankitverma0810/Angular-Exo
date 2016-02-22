@@ -3,7 +3,7 @@ myApp.controller('UsersController', ['$scope', 'Authentication', function($scope
 		Authentication.login($scope.user);
 	};
 
-	$scope.logout = function() {
-		Authentication.logout();
+	$scope.register = function() {
+		Authentication.register($scope.user);
 	};
 }]);

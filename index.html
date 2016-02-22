@@ -16,12 +16,7 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body>
-        <header data-spy="affix" data-offset-top="0" ng-include="'views/elements/header.html'"></header>
-        <div class="wrap">
-            <div id="container" ui-view></div>
-        </div>
-        <footer ng-include="'views/elements/footer.html'"></footer>
+    <body ui-view="layout">
 
         <!-- angular lib -->
         <script src="js/lib/angular/angular.min.js"></script>
@@ -32,8 +27,15 @@
 
         <!-- custom files -->
         <script src="js/app.js"></script>
+        <script src="js/routes/userRouter.js"></script>
+        <script src="js/routes/pageRouter.js"></script>
+        <script src="js/routes/dashboardRouter.js"></script>
         <script src="js/services/authentication.js"></script>
+        <script src="js/services/interceptor.js"></script>
+        <script src="js/controllers/HeaderController.js"></script>
+        <script src="js/controllers/FooterController.js"></script>
         <script src="js/controllers/PagesController.js"></script>
         <script src="js/controllers/UsersController.js"></script>
+        <script src="js/controllers/DashboardController.js"></script>
     </body>
 </html>

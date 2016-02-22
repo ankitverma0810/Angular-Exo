@@ -1,0 +1,57 @@
+<div class="config-container container">
+	<div class="config-form-container">
+		<h1>Configuration settings</h1>
+		<form name="configform" ng-submit="updateSettings(config.id)" novalidate>
+			<div class="form-group" ng-class="{'has-error': configform.email.$invalid}">
+				<label>Email</label>
+				<input type="email" name="email" placeholder="Email" ng-model="config.email" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.email.$invalid && configform.email.$touched">Must be a valid email</span>
+			</div>
+
+			<div class="form-group" ng-class="{'has-error': configform.host.$invalid}">
+				<label>Host</label>
+				<input type="text" name="host" placeholder="Host" ng-model="config.host" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.host.$invalid && configform.host.$touched">Host is required</span>
+			</div>
+
+			<div class="form-group" ng-class="{'has-error': configform.username.$invalid}">
+				<label>Username</label>
+				<input type="text" name="username" placeholder="Username" ng-model="config.username" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.username.$invalid && configform.username.$touched">Username is required</span>
+			</div>
+
+			<div class="form-group" ng-class="{'has-error': configform.password.$invalid}">
+				<label>Password</label>
+				<input type="password" name="password" placeholder="Password" ng-model="config.password" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.password.$invalid && configform.password.$touched">Password is required</span>
+			</div>
+
+			<div class="form-group" ng-class="{'has-error': configform.port.$invalid}">
+				<label>Port</label>
+				<input type="text" name="port" placeholder="Port" ng-model="config.port" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.port.$invalid && configform.port.$touched">Port is required</span>
+			</div>
+
+			<div class="form-group" ng-class="{'has-error': configform.powered_by.$invalid}">
+				<label>Powered By</label>
+				<input type="text" name="powered_by" placeholder="Powered by" ng-model="config.powered_by" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.powered_by.$invalid && configform.powered_by.$touched">Powered is required</span>
+			</div>
+
+			<div class="form-group" ng-class="{'has-error': configform.copyright.$invalid}">
+				<label>Copyright</label>
+				<input type="text" name="copyright" placeholder="Copyright" ng-model="config.copyright" ng-required="true" class="form-control">
+
+            	<span id="helpBlock" class="help-block" ng-show="configform.copyright.$invalid && configform.copyright.$touched">Copyright is required</span>
+			</div>
+
+			<button type="submit" class="btn btn-success" ng-disabled="configform.$invalid">Update</button>
+		</form>
+	</div>
+</div>

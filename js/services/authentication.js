@@ -1,16 +1,29 @@
-myApp.factory('Authentication', ['$rootScope', '$location', '$http', '$sessionStorage', function($rootScope, $location, $http, $sessionStorage) {
+myApp.factory('Authentication', ['$http', '$rootScope', '$location', '$sessionStorage', function($http, $rootScope, $location, $sessionStorage) {
+
+	$rootScope.$storage = $sessionStorage;
+
 	var authObject =  {
 		init: function() {
-			$rootScope.authUser = $sessionStorage.authUser;
-			$rootScope.authToken = $sessionStorage.authToken;
-		},		
+			$rootScope.authUser = $rootScope.$storage.authUser;
+			$rootScope.authToken = $rootScope.$storage.authToken;
+
+			$rootScope.$watch('$storage.authUser', function() {
+			    $rootScope.authUser = $rootScope.$storage.authUser;
+			});
+
+			$rootScope.$watch('$storage.authToken', function() {
+			    $rootScope.authToken = $rootScope.$storage.authToken;
+    			$http.defaults.headers.common['X-CSRF-Token'] = $rootScope.$storage.authToken;
+			});
+		},	
 		login: function(user) {
 			$http.post('/exo-backend/admin/users/login', user).then(function(response) {
 				if(response.data.error) {
-					$rootScope.alertMessage = response.data.error;
+					$rootScope.setFlash = { type: 'danger', message: response.data.error };
 				} else {
-					authObject.setAuthData(response.data);
-					$location.path('/');
+					$rootScope.$storage.authUser = response.data.user;
+					$rootScope.$storage.authToken = response.data.token;
+					$location.path('/dashboard');
 				}
 			}, function(error) {
 				console.log(error);
@@ -19,9 +32,9 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$http', '$sessionSt
 		logout: function() {
 			$http.get('/exo-backend/admin/users/logout').then(function(response) {
 		        if(response.data.error) {
-					$rootScope.alertMessage = response.data.error;
+					$rootScope.setFlash = { type: 'danger', message: response.data.error };
 				} else {
-					authObject.deleteAuthData();
+					$rootScope.$storage.$reset();
 					$location.path('/login');
 				}
 		    }, function(error) {
@@ -29,15 +42,15 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$http', '$sessionSt
 		    });
 		},
 		isLoggedIn: function() {
-	    	return Boolean($sessionStorage.authToken);
+	    	return Boolean($rootScope.$storage.authToken);
 	    },
 		checkAuth: function(callback) {
 			$http.get('/exo-backend/admin/users/login').then(function(response) {
 				if(response.data.error) {
 					if('error' in callback) callback.error(response.data);
 				} else {
-					$sessionStorage.authUser = response.data.user;
-					$sessionStorage.authToken = response.data.token;
+					$rootScope.$storage.authUser = response.data.user;
+					$rootScope.$storage.authToken = response.data.token;
 					if('success' in callback) callback.success(response.data);
 				}
 		    }, function(error) {
@@ -46,28 +59,17 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$http', '$sessionSt
 		    });
 		},
 		register: function(user) {
-			$http.post('/exo-backend/admin/users/add', user).then(function(response) {
+			$http.post('/exo-backend/admin/users/register', user).then(function(response) {
 				if(response.data.error) {
-					$rootScope.alertMessage = response.data.error;
+					$rootScope.setFlash = { type: 'danger', message: response.data.error };
 				} else {
-					$rootScope.alertMessage = response.data.success;
-					$location.path('/login');
+					$rootScope.$storage.authUser = response.data.user;
+					$rootScope.$storage.authToken = response.data.token;
+					$location.path('/dashboard');
 				}
 			}, function(error) {
 				console.log(error);
 			});
-		},
-		setAuthData: function(response) {
-			$sessionStorage.authUser = response.user;
-			$sessionStorage.authToken = response.token;
-			$rootScope.authUser = response.user;
-			$rootScope.authToken = response.token;
-		},
-		deleteAuthData: function() {
-			delete $sessionStorage.authUser;
-			delete $sessionStorage.authToken;
-			$rootScope.authUser = undefined;
-			$rootScope.authToken = undefined;
 		}
 	}
 	authObject.init();

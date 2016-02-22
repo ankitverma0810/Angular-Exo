@@ -1,8 +1,6 @@
 <div class="login-container container">
-	<div class="login-logo"></div>
 	<div class="login-form-container">
 		<h1>Login to Exo</h1>
-		<p>{{alertMessage}}</p>
 		<form name="loginform" ng-submit="login()" novalidate>
 			<div class="form-group" ng-class="{'has-error': loginform.email.$invalid}">
 				<input type="email" name="email" placeholder="Email" ng-model="user.email" ng-required="true" class="form-control">
