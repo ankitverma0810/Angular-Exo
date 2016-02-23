@@ -1,0 +1,5 @@
+<div>
+    <div ng-repeat="alert in alerts" class="alert {{alert.type}}" ng-click="closeAlert($index)">
+        <div>{{alert.message}}</div>
+    </div>
+</div>

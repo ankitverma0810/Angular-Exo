@@ -1,4 +1,4 @@
-myApp.factory('Authentication', ['$http', '$rootScope', '$location', '$sessionStorage', function($http, $rootScope, $location, $sessionStorage) {
+myApp.factory('Authentication', ['$http', '$rootScope', '$location', '$sessionStorage', 'alertsManager', function($http, $rootScope, $location, $sessionStorage, alertsManager) {
 
 	$rootScope.$storage = $sessionStorage;
 
@@ -19,7 +19,7 @@ myApp.factory('Authentication', ['$http', '$rootScope', '$location', '$sessionSt
 		login: function(user) {
 			$http.post('/exo-backend/admin/users/login', user).then(function(response) {
 				if(response.data.error) {
-					$rootScope.setFlash = { type: 'danger', message: response.data.error };
+					alertsManager.addAlert(response.data.error, 'alert-danger');
 				} else {
 					$rootScope.$storage.authUser = response.data.user;
 					$rootScope.$storage.authToken = response.data.token;
@@ -32,7 +32,7 @@ myApp.factory('Authentication', ['$http', '$rootScope', '$location', '$sessionSt
 		logout: function() {
 			$http.get('/exo-backend/admin/users/logout').then(function(response) {
 		        if(response.data.error) {
-					$rootScope.setFlash = { type: 'danger', message: response.data.error };
+					alertsManager.addAlert(response.data.error, 'alert-danger');
 				} else {
 					$rootScope.$storage.$reset();
 					$location.path('/login');
@@ -61,7 +61,7 @@ myApp.factory('Authentication', ['$http', '$rootScope', '$location', '$sessionSt
 		register: function(user) {
 			$http.post('/exo-backend/admin/users/register', user).then(function(response) {
 				if(response.data.error) {
-					$rootScope.setFlash = { type: 'danger', message: response.data.error };
+					alertsManager.addAlert(response.data.error, 'alert-danger');
 				} else {
 					$rootScope.$storage.authUser = response.data.user;
 					$rootScope.$storage.authToken = response.data.token;

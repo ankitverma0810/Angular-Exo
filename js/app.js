@@ -10,7 +10,8 @@ myApp.run(['$rootScope', 'Authentication', function($rootScope, Authentication) 
     });
 
     $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
-        $rootScope.setFlash = '';
+        //empty all the flash messages if any
+        $rootScope.alerts = [];
     });
 }]);
 
@@ -35,6 +36,10 @@ myApp.config(['$httpProvider', '$urlRouterProvider', '$stateProvider', function(
                 'footer@defaultLayout': {
                     templateUrl: 'views/elements/footer.html',
                     controller: 'FooterController'
+                },
+                'alert@defaultLayout': {
+                    templateUrl: 'views/layouts/alert.html',
+                    controller: 'AlertController'
                 }
             },
             resolve: {}
@@ -44,6 +49,10 @@ myApp.config(['$httpProvider', '$urlRouterProvider', '$stateProvider', function(
             views: {
                 'layout': {
                     templateUrl: 'views/layouts/login.html'
+                },
+                'alert@loginLayout': {
+                    templateUrl: 'views/layouts/alert.html',
+                    controller: 'AlertController'
                 }
             }
         });
