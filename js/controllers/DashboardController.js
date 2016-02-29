@@ -1,4 +1,4 @@
-myApp.controller('DashboardController', ['$scope', '$rootScope', '$http', 'Configuration', 'alertsManager', function($scope, $rootScope, $http, Configuration, alertsManager) {
+myApp.controller('DashboardController', ['$scope', '$http', 'Configuration', 'alertsManager', function($scope, $http, Configuration, alertsManager) {
 
 	$scope.config = Configuration.Detail;
 

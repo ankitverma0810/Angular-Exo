@@ -1,6 +1,43 @@
 var myApp = angular.module('myApp', 
-    ['ui.router', 'ngStorage', 'userRouter', 'pageRouter', 'dashboardRouter'])
-    .constant('SITENAME', 'Exo');
+    ['ui.router', 'ngStorage', 'userRouter', 'pageRouter', 'dashboardRouter', 'bannerRouter'])
+    .constant('myConfig', {
+        SITENAME: 'EXO',
+        ROOT: '/',
+        URL: '/exo-backend',
+        API: '/admin'
+    })
+    .directive('ngConfirmClick', [
+        function(){
+            return {
+                link: function (scope, element, attr) {
+                    var msg = attr.ngConfirmClick || "Are you sure?";
+                    var clickAction = attr.confirmedClick;
+                    element.bind('click',function (event) {
+                        if ( window.confirm(msg) ) {
+                            scope.$eval(clickAction);
+                        }
+                    });
+                }
+            };
+    }])
+    .directive('ngFileUpload', function (uploadManager) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function (scope, element, attr) {
+                element.bind('change', function () {
+                    var formData = new FormData();
+                    formData.append('file', element[0].files[0]);
+                    uploadManager('/exo-backend/admin/banners/uploadFile', formData, function (callback) {
+                        console.log(callback);
+                        //need to work from here
+                        //need to store filename inside hidden input available in the form
+                    });
+                });
+
+            }
+        };
+    });
 
 myApp.run(['$rootScope', 'Authentication', function($rootScope, Authentication) {
     //Authentication service is being required here (so that authToken can be set on load)

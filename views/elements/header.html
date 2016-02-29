@@ -14,14 +14,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav" ng-show="authToken">
-                <li><a ui-sref="#admin/banners">Banners</a></li>
-                <li><a ui-sref="#admin/blogs">Blogs</a></li>
-                <li><a ui-sref="#admin/config">Configuration</a></li>
-                <li><a ui-sref="#admin/menus">Menus</a></li>
-                <li><a ui-sref="#admin/pages">Pages</a></li>
-                <li><a ui-sref="#admin/portfolios">Portfolios</a></li>
-                <li><a ui-sref="#admin/services">Services</a></li>
-                <li><a ui-sref="#admin/testimonials">Testimonials</a></li>
+                <li ui-sref-active="active"><a ui-sref="banners">Banners</a></li>
+                <li ui-sref-active="active"><a ui-sref="blogs">Blogs</a></li>
+                <li ui-sref-active="active"><a ui-sref="menus">Menus</a></li>
+                <li ui-sref-active="active"><a ui-sref="pages">Pages</a></li>
+                <li ui-sref-active="active"><a ui-sref="portfolios">Portfolios</a></li>
+                <li ui-sref-active="active"><a ui-sref="services">Services</a></li>
+                <li ui-sref-active="active"><a ui-sref="testimonials">Testimonials</a></li>
             </ul>
 
             <ul class="nav navbar-nav" ng-hide="authToken">
