@@ -1,4 +1,8 @@
-myApp.controller('UsersController', ['$scope', 'Authentication', function($scope, Authentication) {
+myApp.controller('UsersController', ['$scope', '$location', 'Authentication', function($scope, $location, Authentication) {
+
+	// If user is signed in then redirect back home
+	if( Authentication.isLoggedIn() ) $location.path('/dashboard');
+
 	$scope.login = function() {
 		Authentication.login($scope.user);
 	};

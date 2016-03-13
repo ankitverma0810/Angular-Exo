@@ -5,24 +5,18 @@ angular.module('bannerRouter', []).
 	            url: '/banners',
 	            templateUrl: 'views/banners/index.html',
 	            controller: 'BannerController',
-	            parent: 'defaultLayout',
-	            resolve: {
-	                Banners: ['$http', 'myConfig', function($http, myConfig) {
-	                    return $http.get(myConfig.URL+myConfig.API+'/banners').then(function(response) {
-	                        return response.data;
-	                    });
-	                }]
-	            }
+	            parent: 'adminLayout'
 	        }).
 	        state('banners/add', {
 	            url: '/banners/add',
 	            templateUrl: 'views/banners/add.html',
 	            controller: 'BannerController',
-	            parent: 'defaultLayout',
-	            resolve: {
-	            	Banners: function() {
-	            		return {};
-	            	}
-	            }
+	            parent: 'adminLayout'
+	        }).
+	        state('banners/edit', {
+	            url: '/banners/edit/:bannerId',
+	            templateUrl: 'views/banners/edit.html',
+	            controller: 'BannerController',
+	            parent: 'adminLayout'
 	        });
 }]);

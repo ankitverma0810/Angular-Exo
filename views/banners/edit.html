@@ -1,12 +1,12 @@
-<div class="container">
-	<h1>Add Banner</h1> <br>
+<div class="container" data-ng-init="find()">
+	<h1>Edit Banner</h1> <br>
 
-	<form name="bannerform" ng-submit="add()" novalidate>
+	<form name="bannerform" ng-submit="update()" novalidate>
 		<fieldset>
+			<input name="id" type="hidden" ng-model="banner.id" class="form-control">
 			<div class="form-group" ng-class="{'has-error': bannerform.filename.$invalid}">
 				<label>Image</label>
-				<input name="filename" type="file" ng-file-upload ng-model="banner.filename" ng-required="true" class="form-control">
-				<span class="help-block" ng-show="bannerform.filename.$invalid && bannerform.filename.$touched">Please enter banner title</span>
+				<input name="filename" type="file" ng-file-upload ng-model="banner.filename" class="form-control">
 			</div>
 
 			<div class="form-group" ng-class="{'has-error': bannerform.title.$invalid}">

@@ -1,5 +1,5 @@
-<div class="container">
-	<a ui-sref="banners/add" class="btn btn-success pull-right"><span>New Banner</span></a>
+<div class="container" ng-init="listAll()">
+	<a href="banners/add" class="btn btn-success pull-right"><span>New Banner</span></a>
 
 	<div class="clearfix"></div><br><br>
 
@@ -20,6 +20,7 @@
 					<td>{{banner.Banner.title}}</td>
 					<td>{{banner.Banner.url}}</td>
 					<td>
+						<a href="banners/edit/{{banner.Banner.id}}" class="btn btn-warning">Edit</a>
 						<button confirmed-click="delete($index)" ng-confirm-click="Are you sure?" class="btn btn-danger">Delete</button>
 					</td>
 				</tr>

@@ -10,7 +10,7 @@ myApp.factory('authHttpResponseInterceptor', ['$q', '$location', '$timeout', fun
             if (rejection.status === 403) {
                 $timeout(function() {
                     $location.path('/login');
-                }, 100);
+                }, 200);
             }
             return $q.reject(rejection);
         }
